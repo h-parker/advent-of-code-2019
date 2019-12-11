@@ -1,5 +1,5 @@
-# advent-of-code-2019
-Recording my solutions to advent of code 2019 :) 
+# Advent of Code 2019
+Recording my solutions to AOC 2019 :) 
 
 - ~~Day 1~~
   - Day 1 was pretty easy! Just simple looping and algebra, nbd.
