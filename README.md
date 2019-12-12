@@ -1,10 +1,12 @@
-# advent-of-code-2019
-Recording my solutions to advent of code 2019 :) 
+# Advent of Code 2019
+Recording my solutions to AOC 2019 :) 
 
 - ~~Day 1~~
   - Day 1 was pretty easy! Just simple looping and algebra, nbd.
-- Day 2
-- Day 3
+- ~~Day 2~~
+  - Reminded me a lot of a pre-fix calculator project I did back in college. It was one of my favorites! 
+- ~~Day 3~~
+  - I struggled a little with the wording of this day in part 2 -- at first, I thought we had to account for a wire self-crossing! Really, they just wanted us to account for if two wires cross in the same place multiple times (in that case, just take the first time it crosses).
 - Day 4
 - Day 5
 - Day 6
