@@ -1,7 +1,8 @@
 # advent-of-code-2019
 Recording my solutions to advent of code 2019 :) 
 
-- Day 1
+- ~~Day 1~~
+  - Day 1 was pretty easy! Just simple looping and algebra, nbd.
 - Day 2
 - Day 3
 - Day 4
