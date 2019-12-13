@@ -7,7 +7,8 @@ Recording my solutions to AOC 2019 :)
   - Reminded me a lot of a pre-fix calculator project I did back in college. It was one of my favorites! 
 - ~~Day 3~~
   - I struggled a little with the wording of this day in part 2 -- at first, I thought we had to account for a wire self-crossing! Really, they just wanted us to account for if two wires cross in the same place multiple times (in that case, just take the first time it crosses).
-- Day 4
+- ~~Day 4~~
+  - I feel like this shouldn't have taken me as long as it did? I made lots of stupid mistakes! But this one felt clearly worded and I knew what I was doing. The main thing was figuring out random test cases that covered all the different kinds of passcodes. 
 - Day 5
 - Day 6
 - Day 7
