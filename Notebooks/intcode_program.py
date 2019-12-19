@@ -34,20 +34,22 @@ def interpret_instructions(instruction):
 def intcode(sequence, inpt=False):
 	temp = sequence.copy() # don't want to alter the input - work w/ a copy instead
 	idx = 0
+	result = 'n/a' # for storing a result if opcode 4 is called
 	opcode, param_modes = interpret_instructions(temp[0])
 	while opcode != 99 and idx < len(temp):
 		# perform operation & replacement
 		if opcode == 3 and inpt:
 			temp, idx = switch_case(opcode, temp, idx, param_modes, inpt[0])
 			inpt.pop(0) # remove last input used
-
+		elif opcode == 4:
+			temp, idx, result = switch_case(opcode, temp, idx, param_modes)
 		else:
 			temp, idx = switch_case(opcode, temp, idx, param_modes)
 		
 		# replace the opcode & param_modes
 		opcode, param_modes = interpret_instructions(temp[idx])
 
-	return temp
+	return temp, result
 
 
 # makes switch-case for Python woohoo 
@@ -95,8 +97,9 @@ def opcode_3(temp, idx, param_modes, inpt=False):
 
 def opcode_4(temp, idx, param_modes):
 	print(temp[temp[idx+1]] if param_modes[0] == 0 else temp[idx+1])
+	result = temp[temp[idx+1]] if param_modes[0] == 0 else temp[idx+1]
 	idx += 2
-	return temp, idx
+	return temp, idx, result
 
 def opcode_5(temp, idx, param_modes):
 	a, b = get_first_two_params(temp, param_modes, idx)
