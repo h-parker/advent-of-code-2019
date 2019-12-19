@@ -31,13 +31,18 @@ def interpret_instructions(instruction):
 
 
 # runs the actual program
-def intcode(sequence):
+def intcode(sequence, inpt=False):
 	temp = sequence.copy() # don't want to alter the input - work w/ a copy instead
 	idx = 0
 	opcode, param_modes = interpret_instructions(temp[0])
 	while opcode != 99 and idx < len(temp):
 		# perform operation & replacement
-		temp, idx = switch_case(opcode, temp, idx, param_modes)
+		if opcode == 3 and inpt:
+			temp, idx = switch_case(opcode, temp, idx, param_modes, inpt[0])
+			inpt.pop(0) # remove last input used
+
+		else:
+			temp, idx = switch_case(opcode, temp, idx, param_modes)
 		
 		# replace the opcode & param_modes
 		opcode, param_modes = interpret_instructions(temp[idx])
@@ -46,14 +51,14 @@ def intcode(sequence):
 
 
 # makes switch-case for Python woohoo 
-def switch_case(opcode, temp, idx, param_modes):
+def switch_case(opcode, temp, idx, param_modes, inpt=False):
 	# we use lambdas so that python lazily evaluates these 
 	# functions -- a function will only be evaluated when
 	# called in the return statement
 	opcode_dict = {
 		1: (lambda: opcode_1(temp, idx, param_modes)),
 		2: (lambda: opcode_2(temp, idx, param_modes)),
-		3: (lambda: opcode_3(temp, idx, param_modes)),
+		3: (lambda: opcode_3(temp, idx, param_modes, inpt)),
 		4: (lambda: opcode_4(temp, idx, param_modes)),
 		5: (lambda: opcode_5(temp, idx, param_modes)),
 		6: (lambda: opcode_6(temp, idx, param_modes)),
@@ -80,7 +85,7 @@ def opcode_2(temp, idx, param_modes):
 	return temp, idx
 
 def opcode_3(temp, idx, param_modes, inpt=False):
-	if not inpt:
+	if not inpt and inpt != 0: # not 0 == True -- avoid this!
 		user_input = input("Enter your input. ")
 		temp[temp[idx+1]] = int(user_input)
 	else:
@@ -126,4 +131,3 @@ def opcode_8(temp, idx, param_modes):
 		temp[temp[idx+3]] = 0
 	idx += 4
 	return temp, idx
-	
