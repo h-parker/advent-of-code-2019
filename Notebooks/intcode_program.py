@@ -41,6 +41,8 @@ def intcode(sequence, inpt=False):
 		if opcode == 3 and inpt:
 			temp, idx = switch_case(opcode, temp, idx, param_modes, inpt[0])
 			inpt.pop(0) # remove last input used
+		elif opcode == 3:
+			temp, idx = switch_case(opcode, temp, idx, param_modes)
 		elif opcode == 4:
 			temp, idx, result = switch_case(opcode, temp, idx, param_modes)
 		else:
@@ -87,7 +89,7 @@ def opcode_2(temp, idx, param_modes):
 	return temp, idx
 
 def opcode_3(temp, idx, param_modes, inpt=False):
-	if not inpt and inpt != 0: # not 0 == True -- avoid this!
+	if not inpt and str(inpt) != str(0): # not 0 == True -- avoid this!
 		user_input = input("Enter your input. ")
 		temp[temp[idx+1]] = int(user_input)
 	else:
