@@ -14,6 +14,7 @@ Recording my solutions to AOC 2019 :)
 - ~~Day 6~~
   - Immediately, I thought of using a tree, but switched over to using a graph once it seemed like there wasn't one root, like I'd thought based on the example. I spent _far_ too long on trying to make a tree work, and on trying to find a cute, fast solution using the adjacency matrix, but eventually just went with the O(n^2) solution I had for the sake of time and getting on with my life (☹️). However, my decision to use a graph made part two SO EASY -- it was just a shortest path problem, easily solved with Dijkstra's (woohoo!).
 - Day 7
+  - After a break during the holidays, I realized two things -- 1) I have forgotten almost everything I did with intcode! and 2) Intcode really needs to be a class - it needs too much functionality to go without. So, I decided to go back and redo day 2, 5, and part 1 of day 7 before moving onto part 2 of day 7.
 - Day 8
 - Day 9
 - Day 10
