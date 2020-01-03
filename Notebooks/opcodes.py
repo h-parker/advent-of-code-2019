@@ -6,16 +6,16 @@ def one(memory, pointer, param_modes):
 	"""
 	Addition
 	"""
-	a, b = get_first_two_params(memory, param_modes, pointer)
+	a, b = get_first_two_params(memory, pointer, param_modes)
 	memory[memory[pointer+3]] = a + b
-	address += 4
+	pointer += 4
 	return memory, pointer
 
 def two(memory, pointer, param_modes):
 	"""
 	Multiplication
 	"""
-	a, b = get_first_two_params(memory, param_modes, pointer)
+	a, b = get_first_two_params(memory, pointer, param_modes)
 	memory[memory[pointer+3]] = a * b
 	pointer += 4
 	return memory, pointer
@@ -41,7 +41,7 @@ def four(memory, pointer, param_modes):
 	pointer += 2
 	return output
 
-def get_first_two_params(memory, param_modes, pointer):
+def get_first_two_params(memory, pointer, param_modes):
 	"""
 	Returns the values to be used according to the parameter modes provided
 	(helper function)
