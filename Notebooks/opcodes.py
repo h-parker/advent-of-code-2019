@@ -28,7 +28,7 @@ def three(memory, pointer, user_input):
 	if not user_input:
 		user_input = input('Please input a value. ')
 
-	memory[memory[pointer + 1]] = user_input
+	memory[memory[pointer + 1]] = int(user_input)
 	pointer += 2
 	return memory, pointer
 
