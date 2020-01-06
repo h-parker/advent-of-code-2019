@@ -39,7 +39,7 @@ def four(memory, pointer, param_modes):
 	output = memory[memory[pointer + 1]] if param_modes[0] == 0 else memory[pointer + 1]
 	print(output)
 	pointer += 2
-	return output
+	return memory, pointer, output
 
 def get_first_two_params(memory, pointer, param_modes):
 	"""
