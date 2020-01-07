@@ -26,9 +26,9 @@ def three(memory, pointer, user_input):
 	because the only parameter is the address the user input is saved to
 	"""
 	if not user_input:
-		user_input = input('Please input a value. ')
+		user_input = [int(input('Please input a value. '))]
 
-	memory[memory[pointer + 1]] = int(user_input)
+	memory[memory[pointer + 1]] = user_input[0]
 	pointer += 2
 	return memory, pointer
 

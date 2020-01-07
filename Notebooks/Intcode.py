@@ -42,10 +42,15 @@ class Intcode:
 				if opcode != 4:
 					self.memory, self.pointer = self.__execute_opcode__(opcode, param_modes)
 				else:
-					self.memory, self.pointer, self.output = self.__execute_opcode__(opcode, param_modes)
+					self.memory, self.pointer, self.curr_output = self.__execute_opcode__(opcode, param_modes)
+
+				#get rid of last used input, if the opcode is 3
+				if opcode == 3:
+					self.user_input.pop(0)
+
 				opcode, param_modes = self.__interpret_instructions__(self.memory[self.pointer])
 
-		return self.memory
+		return self.memory, self.curr_output
 
 
 
@@ -83,9 +88,9 @@ class Intcode:
 		"""
 		# we use lambdas so that python lazily evaluates these functions -- a function will 
 		# only be evaluated when called in the return statement
-		print(opcode)
-		print(self.memory[self.pointer:self.pointer + 5])
-		print(param_modes)
+		# print(opcode)
+		# print(self.memory)
+		# print(param_modes)
 		opcode_dict = {
 			1: (lambda: opcodes.one(self.memory, self.pointer, param_modes)),
 			2: (lambda: opcodes.two(self.memory, self.pointer, param_modes)),
