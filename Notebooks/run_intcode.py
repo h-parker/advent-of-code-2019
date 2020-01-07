@@ -3,26 +3,38 @@ Script to run Intcode
 """
 
 from Intcode import Intcode
+from itertools import permutations
+
 
 def main():
 
-	program = [3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0]
+	program = [3,8,1001,8,10,8,105,1,0,0,21,34,59,76,101,114,195,276,357,438,99999,3,9,1001,9,4,9,1002,9,4,9,4,9,99,3,9,102,4,9,9,101,2,9,9,102,4,9,9,1001,9,3,9,102,2,9,9,4,9,99,3,9,101,4,9,9,102,5,9,9,101,5,9,9,4,9,99,3,9,102,2,9,9,1001,9,4,9,102,4,9,9,1001,9,4,9,1002,9,3,9,4,9,99,3,9,101,2,9,9,1002,9,3,9,4,9,99,3,9,101,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,99,3,9,101,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,1,9,4,9,99,3,9,102,2,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,1001,9,1,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,2,9,9,4,9,99,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,101,2,9,9,4,9,99,3,9,1002,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,2,9,9,4,9,99]
 
-	ampA = Intcode(program=program, user_input=[4,0])
-	mem, ampA_output = ampA.intcode()
+	max_signal = 0
 
-	ampB = Intcode(program=program, user_input=[3, ampA_output])
-	mem, ampB_output = ampB.intcode()
+	for perm in list(permutations(range(5), 5)):
+		result = 0
+		ampA = Intcode(program=program, user_input=[perm[0],0])
+		mem, ampA_output = ampA.intcode()
 
-	ampC = Intcode(program=program, user_input=[2, ampB_output])
-	mem, ampC_output = ampC.intcode()
+		ampB = Intcode(program=program, user_input=[perm[1], ampA_output])
+		mem, ampB_output = ampB.intcode()
 
-	ampD = Intcode(program=program, user_input=[1, ampC_output])
-	mem, ampD_output = ampD.intcode()
+		ampC = Intcode(program=program, user_input=[perm[2], ampB_output])
+		mem, ampC_output = ampC.intcode()
 
-	ampE = Intcode(program=program, user_input=[0, ampD_output])
-	mem, ampE_output = ampE.intcode()
+		ampD = Intcode(program=program, user_input=[perm[3], ampC_output])
+		mem, ampD_output = ampD.intcode()
 
+		ampE = Intcode(program=program, user_input=[perm[4], ampD_output])
+		mem, ampE_output = ampE.intcode()
+
+
+		if ampE_output > max_signal:
+			max_signal = ampE_output
+
+
+	print('max signal is', max_signal)
 
 if __name__ == "__main__":
-    main()
+	main()
