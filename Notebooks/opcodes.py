@@ -16,7 +16,7 @@ def two(memory, pointer, param_modes):
 	Multiplication
 	"""
 	param = get_params(memory, pointer, param_modes)
-	memory[memory[pointer + 3]] = param[1] * param[2]
+	memory[memory[pointer + 3]] = param[0] * param[1]
 	pointer += 4
 	return memory, pointer
 
@@ -84,6 +84,6 @@ def get_params(memory, pointer, param_modes):
 	parameters = []
 	i = 1
 	for mode in param_modes:
-		parameters.append(memory[memory[pointer + i]] if param_modes[0] == 0 else memory[pointer + i])
+		parameters.append(memory[memory[pointer + i]] if param_modes[i - 1] == 0 else memory[pointer + i])
 		i += 1
 	return parameters

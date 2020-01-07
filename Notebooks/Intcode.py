@@ -83,11 +83,18 @@ class Intcode:
 		"""
 		# we use lambdas so that python lazily evaluates these functions -- a function will 
 		# only be evaluated when called in the return statement
+		print(opcode)
+		print(self.memory[self.pointer:self.pointer + 5])
+		print(param_modes)
 		opcode_dict = {
 			1: (lambda: opcodes.one(self.memory, self.pointer, param_modes)),
 			2: (lambda: opcodes.two(self.memory, self.pointer, param_modes)),
 			3: (lambda: opcodes.three(self.memory, self.pointer, self.user_input)),
-			4: (lambda: opcodes.four(self.memory, self.pointer, param_modes))
+			4: (lambda: opcodes.four(self.memory, self.pointer, param_modes)),
+			5: (lambda: opcodes.five(self.memory, self.pointer, param_modes)),
+			6: (lambda: opcodes.six(self.memory, self.pointer, param_modes)),
+			7: (lambda: opcodes.seven(self.memory, self.pointer, param_modes)),
+			8: (lambda: opcodes.eight(self.memory, self.pointer, param_modes))
 		}
 		return opcode_dict.get(opcode, (None, None))()
 
