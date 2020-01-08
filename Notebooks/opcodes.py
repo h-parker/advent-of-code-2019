@@ -20,17 +20,24 @@ def two(memory, pointer, param_modes):
 	pointer += 4
 	return memory, pointer
 
-def three(memory, pointer, user_input):
+def three(memory, pointer, user_input, automate, paused):
 	"""
 	Saves user input to a given address. Does not use parameter modes
 	because the only parameter is the address the user input is saved to
 	"""
-	if not user_input:
+	if automate and not user_input:
+		paused = True
+		# return here so that the computer starts up again where it left off
+		# once no longer paused
+		return memory, pointer, paused
+
+	elif not user_input:
 		user_input = [int(input('Please input a value. '))]
 
 	memory[memory[pointer + 1]] = user_input[0]
 	pointer += 2
-	return memory, pointer
+
+	return memory, pointer, paused
 
 def four(memory, pointer, param_modes):
 	"""
