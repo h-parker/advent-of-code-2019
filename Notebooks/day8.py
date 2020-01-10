@@ -5,12 +5,9 @@ def main():
 
 	layers = getLayers(width, height, image_data)
 
-	print(len(layers))
-
 
 def getLayers(width, height, image_data):
-	layers = [image_data[i:i+width*height] for i in range(0, len(image_data), width*height)]
-	return layers
+	return [image_data[i:i+width*height] for i in range(0, len(image_data), width*height)]
 
 if __name__ == '__main__':
 	main()
