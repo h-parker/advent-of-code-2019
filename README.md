@@ -13,9 +13,10 @@ Recording my solutions to AOC 2019 :)
   - Again, lots of silly mistakes! But, this one was fun because I coded a python switch-case statement and learned about Python's strict evaluation (and how you can use lambdas to trick it into lazy evaluation!). Op codes 5 and 6 tripped me up for a sec — I wasn’t advancing the index at all for a bit! Then it clicked that I couldn’t just have the program do _nothing_ (duh), and so I started advancing the index if the comparison evaluated to false. 
 - ~~Day 6~~
   - Immediately, I thought of using a tree, but switched over to using a graph once it seemed like there wasn't one root, like I'd thought based on the example. I spent _far_ too long on trying to make a tree work, and on trying to find a cute, fast solution using the adjacency matrix, but eventually just went with the O(n^2) solution I had for the sake of time and getting on with my life (☹️). However, my decision to use a graph made part two SO EASY -- it was just a shortest path problem, easily solved with Dijkstra's (woohoo!).
-- Day 7
+- ~~Day 7~~
   - After a break during the holidays, I realized two things -- 1) I have forgotten almost everything I did with intcode! and 2) Intcode really needs to be a class - it needs too much functionality to go without. So, I decided to go back and redo day 2, 5, and part 1 of day 7 before moving onto part 2 of day 7. Having the functionality of a class, being and able to keep track of the status of different computers running at the same time (the amps), made part 2 SO MUCH easier than it would've been, so though it took a couple days to rework everything, it was definitely worth it to devote the time, concentration, and thought. Part 2 was actually very hard for me to understand at first! It's asking that you basically 'pause' the current computer and wait for the output of the computer that comes before it once it hits input 3 (which asks for input). They'll keep cycling until they halt, and then you'll have your final output!
-- Day 8
+- ~~Day 8~~
+	- This was relatively okay! The main issues were me getting my indices all turned around -- multiple for-loops will do that to you. 
 - Day 9
 - Day 10
 - Day 11
