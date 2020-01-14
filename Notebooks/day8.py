@@ -70,17 +70,31 @@ def renderPixel(pixel_list):
 
 
 def renderImage(layers, width, height):
+	"""
+	Puts together a list of the final pixels in the correct order (but does
+	not create an image that makes sense, visually -- that's what you use
+	dislayImage() for).
+	"""
 	image = []
+
 	for row in range(height):
 		for pixel in range(width):
 			curr_pixel = []
 			for layer in range(len(layers)):
+				# puts together a list of all the pixels
+				# in the same position in each layer
 				curr_pixel.append(layers[layer][row][pixel])
+
+			# gets the resulting pixel that will be displayed
+			# and adds it to the image
 			image.append(renderPixel(curr_pixel))
 	return image
 
 
 def displayImage(rendered, width, height):
+	"""
+	Runs through the rendered list, printing the image line by line
+	"""
 	for i in range(height):
 		line = ''
 		for pixel in rendered[i*width:i*width + width]:
