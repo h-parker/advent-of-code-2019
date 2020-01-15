@@ -83,7 +83,9 @@ def eight(memory, pointer, param_modes):
 	pointer += 4
 	return memory, pointer
 
-def get_params(memory, pointer, param_modes):
+
+
+def get_params(memory, pointer, param_modes, relative_base):
 	"""
 	Returns the values to be used according to the parameter modes provided
 	(helper function)
@@ -91,6 +93,12 @@ def get_params(memory, pointer, param_modes):
 	parameters = []
 	i = 1
 	for mode in param_modes:
-		parameters.append(memory[memory[pointer + i]] if param_modes[i - 1] == 0 else memory[pointer + i])
+		if mode == 0:
+			parameters.append(memory[memory[pointer + i]])
+		elif mode == 1:
+			parameters.append(memory[pointer + i])
+		elif mode == 2:
+			parameters.append(memory[memory[pointer+i] 
+										+ relative_base])
 		i += 1
 	return parameters
