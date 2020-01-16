@@ -2,7 +2,7 @@
 This module contains opcode functions and helper functions needed
 """
 
-def one(memory, pointer, param_modes):
+def one(memory, pointer, param_modes, relative_base):
 	"""
 	Addition
 	"""
@@ -11,7 +11,7 @@ def one(memory, pointer, param_modes):
 	pointer += 4
 	return memory, pointer
 
-def two(memory, pointer, param_modes):
+def two(memory, pointer, param_modes, relative_base):
 	"""
 	Multiplication
 	"""
@@ -39,7 +39,7 @@ def three(memory, pointer, user_input, automate, paused):
 
 	return memory, pointer, paused
 
-def four(memory, pointer, param_modes):
+def four(memory, pointer, param_modes, relative_base):
 	"""
 	Outputing value in memory
 	"""
@@ -49,7 +49,7 @@ def four(memory, pointer, param_modes):
 	pointer += 2
 	return memory, pointer, output
 
-def five(memory, pointer, param_modes):
+def five(memory, pointer, param_modes, relative_base):
 	param = get_params(memory, pointer, param_modes, relative_base)
 	if param[0] != 0:
 		pointer = param[1]
@@ -57,7 +57,7 @@ def five(memory, pointer, param_modes):
 		pointer += 3
 	return memory, pointer
 
-def six(memory, pointer, param_modes):
+def six(memory, pointer, param_modes, relative_base):
 	param = get_params(memory, pointer, param_modes, relative_base)
 	if param[0] == 0:
 		pointer = param[1]
@@ -65,7 +65,7 @@ def six(memory, pointer, param_modes):
 		pointer += 3
 	return memory, pointer
 
-def seven(memory, pointer, param_modes):
+def seven(memory, pointer, param_modes, relative_base):
 	param = get_params(memory, pointer, param_modes, relative_base)
 	if param[0] < param[1]:
 		memory[memory[pointer + 3]] = 1
@@ -74,7 +74,7 @@ def seven(memory, pointer, param_modes):
 	pointer += 4
 	return memory, pointer
 
-def eight(memory, pointer, param_modes):
+def eight(memory, pointer, param_modes, relative_base):
 	param = get_params(memory, pointer, param_modes, relative_base)
 	if param[0] == param[1]:
 		memory[memory[pointer + 3]] = 1
