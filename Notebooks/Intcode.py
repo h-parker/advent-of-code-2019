@@ -22,7 +22,9 @@ class Intcode:
 		replaced with 33 in whatever the program is. 
 		"""
 		self.name = name
-		self.memory = program.copy() # set initial memory
+		# set initial memory and extend the length of the memory to five times the size of 
+		# the program
+		self.memory = program.copy().append([0 for x in range(len(program)*5)]) 
 		self.pointer = pointer
 		self.user_input = user_input
 		self.replacements = replacements 
