@@ -21,10 +21,10 @@ class Intcode:
 		in the value in address 0 being replaced with 3 and the value in address 10 being
 		replaced with 33 in whatever the program is. 
 		"""
+		self.memory = program.copy() # set initial memory 
+		# extend the length of the memory to 100 times the size of the program
+		self.memory.extend([0 for x in range(len(program)*100)]) 
 		self.name = name
-		# set initial memory and extend the length of the memory to five times the size of 
-		# the program
-		self.memory = program.copy().extend([0 for x in range(len(program)*5)]) 
 		self.pointer = pointer
 		self.user_input = user_input
 		self.replacements = replacements 
@@ -116,16 +116,23 @@ class Intcode:
 		# print('computer', self.name, 'memory:', self.memory)
 		# print('computer', self.name, 'parameter modes:', param_modes)
 		opcode_dict = {
-			1: (lambda: opcodes.one(self.memory, self.pointer, param_modes)),
-			2: (lambda: opcodes.two(self.memory, self.pointer, param_modes)),
+			1: (lambda: opcodes.one(self.memory, self.pointer, param_modes,
+				self.relative_base)),
+			2: (lambda: opcodes.two(self.memory, self.pointer, param_modes,
+				self.relative_base)),
 			3: (lambda: opcodes.three(self.memory, self.pointer, self.user_input, 
 				self.automate, self.paused)),
-			4: (lambda: opcodes.four(self.memory, self.pointer, param_modes)),
-			5: (lambda: opcodes.five(self.memory, self.pointer, param_modes)),
-			6: (lambda: opcodes.six(self.memory, self.pointer, param_modes)),
-			7: (lambda: opcodes.seven(self.memory, self.pointer, param_modes)),
-			8: (lambda: opcodes.eight(self.memory, self.pointer, param_modes)),
-			9: (lambda: opcodes.nine(self.memory, self.pointer, param_modesm,
+			4: (lambda: opcodes.four(self.memory, self.pointer, param_modes,
+				self.relative_base)),
+			5: (lambda: opcodes.five(self.memory, self.pointer, param_modes,
+				self.relative_base)),
+			6: (lambda: opcodes.six(self.memory, self.pointer, param_modes,
+				self.relative_base)),
+			7: (lambda: opcodes.seven(self.memory, self.pointer, param_modes,
+				self.relative_base)),
+			8: (lambda: opcodes.eight(self.memory, self.pointer, param_modes,
+				self.relative_base)),
+			9: (lambda: opcodes.nine(self.memory, self.pointer, param_modes,
 				 self.relative_base))
 		}
 		return opcode_dict.get(opcode, (None, None))()
