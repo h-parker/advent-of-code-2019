@@ -6,7 +6,7 @@ class Intcode:
 	read and execute Intcode programs. 
 	"""
 	def __init__(self, program, name='default', pointer = 0, user_input = False, 
-				replacements = False):
+				replacements = False, debug = False):
 		"""
 		- program is the sequence of integers containing opcodes the integers they operate 
 		on.
@@ -32,6 +32,7 @@ class Intcode:
 		self.halted = False # True once opcode 99 is reached
 		self.curr_output = False # store last output from opcode 4
 		self.paused = False # pause to wait to get input
+		self.debug = debug
 
 		# False if you want to have the computer wait to recieve human input and True
 		# if you are giving the computer input and it's operating on it's own, going
@@ -55,7 +56,7 @@ class Intcode:
 				self.halted = True
 			else:
 				if opcode == 3:
-					self.memory, self.pointer, self.paused = self.__execute_opcode__(opcode,
+					self.memory, self.pointer, self.paused, user_input = self.__execute_opcode__(opcode,
 																	 param_modes)
 					# get rid of last used input if there was input provided
 					if not self.paused:
@@ -73,6 +74,10 @@ class Intcode:
 																			param_modes)
 
 				opcode, param_modes = self.__interpret_instructions__(self.memory[self.pointer])
+
+
+		if self.halted:
+			print("**************END OF PROGRAM**************")
 
 		return self.memory, self.curr_output
 
@@ -111,29 +116,31 @@ class Intcode:
 		"""
 		# we use lambdas so that python lazily evaluates these functions -- a function will 
 		# only be evaluated when called in the return statement
-		# print('computer', self.name, 'opcode:', opcode)
-		# print('computer', self.name, 'pointer', self.pointer)
-		# print('computer', self.name, 'memory:', self.memory)
-		# print('computer', self.name, 'parameter modes:', param_modes)
+		if self.debug:
+			print('memory snippet', self. memory[self.pointer:self.pointer + 4])
+			print('computer', self.name, 'opcode:', opcode)
+			print('computer', self.name, 'pointer', self.pointer)
+			print('computer', self.name, 'parameter modes:', param_modes)
+
 		opcode_dict = {
 			1: (lambda: opcodes.one(self.memory, self.pointer, param_modes,
-				self.relative_base)),
+				self.relative_base, self.debug)),
 			2: (lambda: opcodes.two(self.memory, self.pointer, param_modes,
-				self.relative_base)),
+				self.relative_base, self.debug)),
 			3: (lambda: opcodes.three(self.memory, self.pointer, self.user_input, 
-				self.automate, self.paused)),
+				self.automate, self.paused, self.debug)),
 			4: (lambda: opcodes.four(self.memory, self.pointer, param_modes,
 				self.relative_base)),
 			5: (lambda: opcodes.five(self.memory, self.pointer, param_modes,
-				self.relative_base)),
+				self.relative_base, self.debug)),
 			6: (lambda: opcodes.six(self.memory, self.pointer, param_modes,
-				self.relative_base)),
+				self.relative_base, self.debug)),
 			7: (lambda: opcodes.seven(self.memory, self.pointer, param_modes,
-				self.relative_base)),
+				self.relative_base, self.debug)),
 			8: (lambda: opcodes.eight(self.memory, self.pointer, param_modes,
-				self.relative_base)),
+				self.relative_base, self.debug)),
 			9: (lambda: opcodes.nine(self.memory, self.pointer, param_modes,
-				 self.relative_base))
+				 self.relative_base, self.debug))
 		}
 		return opcode_dict.get(opcode, (None, None))()
 
