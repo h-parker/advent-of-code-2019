@@ -2,15 +2,18 @@ import opcodes
 
 class Intcode:
 	"""
-	Creating an instance of the Intcode class will create a computer that can be used to read
-	and execute Intcode programs. 
+	Creating an instance of the Intcode class will create a computer that can be used to 
+	read and execute Intcode programs. 
 	"""
-	def __init__(self, name, program, pointer = 0, user_input = False, replacements = False):
+	def __init__(self, name, program, pointer = 0, user_input = False, 
+				replacements = False):
 		"""
 		- name is mostly here for debugging purposes
-		- program is the sequence of integers containing opcodes the integers they operate on.
+		- program is the sequence of integers containing opcodes the integers they operate 
+		on.
 		- pointer is the address in memory the Intcode computer is currently operating on; 
-		defaults to 0, since a new instance of an intcode computer will start at the beginning
+		defaults to 0, since a new instance of an intcode computer will start at the 
+		beginning
 		- user_input is provided when you want to automate testing with user input
 		- replacements should be a list of tuples, with the first position in each tuple 
 		being the address in memory that should be replaced, and the second position in
@@ -23,6 +26,7 @@ class Intcode:
 		self.pointer = pointer
 		self.user_input = user_input
 		self.replacements = replacements 
+		self.relative_base = 0 # relative base for opcode 9
 		self.halted = False # True once opcode 99 is reached
 		self.curr_output = False # store last output from opcode 4
 		self.paused = False # pause to wait to get input
@@ -49,15 +53,22 @@ class Intcode:
 				self.halted = True
 			else:
 				if opcode == 3:
-					self.memory, self.pointer, self.paused = self.__execute_opcode__(opcode, param_modes)
+					self.memory, self.pointer, self.paused = self.__execute_opcode__(opcode,
+																	 param_modes)
 					# get rid of last used input if there was input provided
 					if not self.paused:
 						self.user_input.pop(0)
 
+				elif opcode == 9:
+					self.memory, self.pointer, self.relative_base = self.__execute_opcode__(
+																		opcode, param_modes)
+
 				elif opcode != 4:
 					self.memory, self.pointer = self.__execute_opcode__(opcode, param_modes)
 				else:
-					self.memory, self.pointer, self.curr_output = self.__execute_opcode__(opcode, param_modes)
+					self.memory, self.pointer, self.curr_output = self.__execute_opcode__(
+																			opcode, 
+																			param_modes)
 
 				opcode, param_modes = self.__interpret_instructions__(self.memory[self.pointer])
 
@@ -111,7 +122,9 @@ class Intcode:
 			5: (lambda: opcodes.five(self.memory, self.pointer, param_modes)),
 			6: (lambda: opcodes.six(self.memory, self.pointer, param_modes)),
 			7: (lambda: opcodes.seven(self.memory, self.pointer, param_modes)),
-			8: (lambda: opcodes.eight(self.memory, self.pointer, param_modes))
+			8: (lambda: opcodes.eight(self.memory, self.pointer, param_modes)),
+			9: (lambda: opcodes.nine(self.memory, self.pointer, param_modesm,
+				 self.relative_base))
 		}
 		return opcode_dict.get(opcode, (None, None))()
 
