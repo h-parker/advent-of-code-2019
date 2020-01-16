@@ -5,12 +5,12 @@ class Intcode:
 	Creating an instance of the Intcode class will create a computer that can be used to 
 	read and execute Intcode programs. 
 	"""
-	def __init__(self, name, program, pointer = 0, user_input = False, 
+	def __init__(self, program, name='default', pointer = 0, user_input = False, 
 				replacements = False):
 		"""
-		- name is mostly here for debugging purposes
 		- program is the sequence of integers containing opcodes the integers they operate 
 		on.
+		- name is mostly here for debugging purposes
 		- pointer is the address in memory the Intcode computer is currently operating on; 
 		defaults to 0, since a new instance of an intcode computer will start at the 
 		beginning
@@ -24,7 +24,7 @@ class Intcode:
 		self.name = name
 		# set initial memory and extend the length of the memory to five times the size of 
 		# the program
-		self.memory = program.copy().append([0 for x in range(len(program)*5)]) 
+		self.memory = program.copy().extend([0 for x in range(len(program)*5)]) 
 		self.pointer = pointer
 		self.user_input = user_input
 		self.replacements = replacements 
