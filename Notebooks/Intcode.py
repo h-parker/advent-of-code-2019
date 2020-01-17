@@ -90,20 +90,17 @@ class Intcode:
 		"""
 		instruc_len = len(str(instruction))
 		opcode = int(str(instruction)[instruc_len - 2:])
-		if opcode != 3:
-			param_modes = [int(x) for x in str(instruction)[:instruc_len - 2]]
 
-			# read from right to left, rather than left to right, so we have to reverse 
-			# the order
-			param_modes.reverse()
+		param_modes = [int(x) for x in str(instruction)[:instruc_len - 2]]
 
-			if len(param_modes) < 2:
-				if opcode != 4: # since opcode 4 only needs 1 parameter mode
-					param_modes.extend([0 for x in range(2 - len(param_modes))])
-				else:
-					param_modes.extend([0 for x in range(1 - len(param_modes))])
-		else:
-			param_modes = []
+		# read from right to left, rather than left to right, so we have to reverse 
+		# the order
+		param_modes.reverse()
+
+		if len(param_modes) < 2:
+			# this will add some extra 0's for some opcodes, but that's okay --
+			# it won't hurt the functionality!
+			param_modes.extend([0 for x in range(3 - len(param_modes))])
 
 		return opcode, param_modes
 
@@ -128,7 +125,8 @@ class Intcode:
 			2: (lambda: opcodes.two(self.memory, self.pointer, param_modes,
 				self.relative_base, self.debug)),
 			3: (lambda: opcodes.three(self.memory, self.pointer, self.user_input, 
-				self.automate, self.paused, self.debug)),
+				param_modes, self.automate, self.paused, self.relative_base,
+				 self.debug)),
 			4: (lambda: opcodes.four(self.memory, self.pointer, param_modes,
 				self.relative_base)),
 			5: (lambda: opcodes.five(self.memory, self.pointer, param_modes,
