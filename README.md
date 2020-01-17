@@ -17,7 +17,8 @@ Recording my solutions to AOC 2019 :)
   - After a break during the holidays, I realized two things -- 1) I have forgotten almost everything I did with intcode! and 2) Intcode really needs to be a class - it needs too much functionality to go without. So, I decided to go back and redo day 2, 5, and part 1 of day 7 before moving onto part 2 of day 7. Having the functionality of a class, being and able to keep track of the status of different computers running at the same time (the amps), made part 2 SO MUCH easier than it would've been, so though it took a couple days to rework everything, it was definitely worth it to devote the time, concentration, and thought. Part 2 was actually very hard for me to understand at first! It's asking that you basically 'pause' the current computer and wait for the output of the computer that comes before it once it hits input 3 (which asks for input). They'll keep cycling until they halt, and then you'll have your final output!
 - ~~Day 8~~
 	- This was relatively okay! The main issues were me getting my indices all turned around -- multiple for-loops will do that to you. 
-- Day 9
+- ~~Day 9~~
+	- The main thing tripping me up here is that I had previously been giving the opcode functions the values to operate on, when in reality it made much more sense to give the opcode functions the memory address. This issue reared its head when I was unable to use mode 2 in opcodes 1 and 2 -- previously I'd only been saving the results in mode 0, since you can't save a result to a value. Once I restructured the opcode module, everything pretty much fell into place!
 - Day 10
 - Day 11
 - Day 12
