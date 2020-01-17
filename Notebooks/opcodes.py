@@ -7,49 +7,41 @@ def one(memory, pointer, param_modes, relative_base, debug):
 	Addition
 	"""
 	param = get_params(memory, pointer, param_modes, relative_base)
-	if len(param_modes) > 2 and param_modes[2] == 2:
-		memory[param[2] + relative_base] = param[0] + param[1]
-		if debug:
-			print('parameters are', param)
-			print('memory loc', param[2] + relative_base)
-			print('memory changed to', memory[param[2] + relative_base])
-			print('-----------------')
-	else:
-		memory[memory[pointer + 3]] = param[0] + param[1]
-		if debug:
-			print('parameters are', param)
-			print('memory loc', memory[pointer+3])
-			print('memory changed to', memory[memory[pointer+3]])
-			print('-----------------')
+	memory[param[2]] = memory[param[0]] + memory[param[1]]
+
+	if debug:
+		print('parameters are', [memory[x] for x in param])
+		print('memory loc', param[2])
+		print('memory loc', param[2], 'changed to', memory[param[2]])
+		print('-----------------')
 	
 	pointer += 4
 
 	return memory, pointer
+
+
+
 
 def two(memory, pointer, param_modes, relative_base, debug):
 	"""
 	Multiplication
 	"""
 	param = get_params(memory, pointer, param_modes, relative_base)
+	memory[param[2]] = memory[param[0]] * memory[param[1]]
+
+	if debug:
+		print('parameters are', [memory[x] for x in param])
+		print('memory loc', param[2])
+		print('memory loc', param[2], 'changed to', memory[param[2]])
+		print('-----------------')
 	
-	if len(param_modes) > 2 and param_modes[2] == 2:
-		memory[param[2] + relative_base] = param[0] * param[1]
-		if debug:
-			print('parameters are', param)
-			print('memory loc', param[2] + relative_base)
-			print('memory changed to', memory[param[2] + relative_base])
-			print('-----------------')
-	else:
-		memory[memory[pointer + 3]] = param[0] * param[1]
-		if debug:
-			print('parameters are', param)
-			print('memory loc', memory[pointer +3])
-			print('memory changed to', memory[memory[pointer+3]])
-			print('-----------------')
 	
 	pointer += 4
 	
 	return memory, pointer
+
+
+
 
 def three(memory, pointer, user_input, param_modes, automate, paused, 
 	relative_base, debug):
@@ -66,106 +58,118 @@ def three(memory, pointer, user_input, param_modes, automate, paused,
 	elif not user_input:
 		user_input = [int(input('Please input a value. '))]
 
-	if param_modes[0] == 0:
-		memory[memory[pointer + 1]] = user_input[0]
-		if debug:
-			print('memory at loc', memory[pointer+1],
-				'changed to', memory[memory[pointer+1]])
-			print('-----------------')
+	param = get_params(memory, pointer, param_modes, relative_base)
 
-	elif param_modes[0] == 1:
-		print('Error -- Opcode 3 cannot accept immediate mode')
+	memory[param[0]] = user_input[0]
+	if debug:
+		print('memory at loc', param[0],
+				'changed to', memory[param[0]])
+		print('-----------------')
 
-	elif param_modes[0] == 2:
-		print(user_input[0])
-		memory[memory[pointer + 1] + relative_base] = user_input[0]
-		if debug:
-			print('memory at loc', memory[pointer+1] + relative_base,
-				'changed to', memory[memory[pointer+1] + relative_base])
-			print('-----------------')
 	
 	pointer += 2
 
 	return memory, pointer, paused, user_input
+
+
+
 
 def four(memory, pointer, param_modes, relative_base):
 	"""
 	Outputing value in memory
 	"""
 	param = get_params(memory, pointer, param_modes, relative_base)
-	output = param[0]
+	output = memory[param[0]]
 	print(output)
 	pointer += 2
 
 	return memory, pointer, output
 
+
+
+
 def five(memory, pointer, param_modes, relative_base, debug):
 	param = get_params(memory, pointer, param_modes, relative_base)
-	if param[0] != 0:
-		pointer = param[1]
+	if memory[param[0]] != 0:
+		pointer = memory[param[1]]
 	else:
 		pointer += 3
 
 	if debug:
-		print('parameters are', param)
+		print('parameters are', [memory[x] for x in param])
 		print('pointer is now', pointer)
 		print('-----------------')
 
 	return memory, pointer
+
+
+
 
 def six(memory, pointer, param_modes, relative_base, debug):
 	param = get_params(memory, pointer, param_modes, relative_base)
-	if param[0] == 0:
-		pointer = param[1]
+	if memory[param[0]] == 0:
+		pointer = memory[param[1]]
 	else:
 		pointer += 3
 
 	if debug:
-		print('parameters are', param)
+		print('parameters are', [memory[x] for x in param])
 		print('pointer is now', pointer)
 		print('-----------------')
 
 	return memory, pointer
 
+
+
+
 def seven(memory, pointer, param_modes, relative_base, debug):
 	param = get_params(memory, pointer, param_modes, relative_base)
-	if param[0] < param[1]:
-		memory[memory[pointer + 3]] = 1
+	
+	if memory[param[0]] < memory[param[1]]:
+		memory[param[2]] = 1
 	else:
-		memory[memory[pointer + 3]] = 0
+		memory[param[2]] = 0
+
 	pointer += 4
 
 	if debug:
-		print('parameters are', param)
-		print('memory loc', memory[pointer -1])
-		print('memory changed to', memory[memory[pointer-1]])
+		print('parameters are', [memory[x] for x in param])
+		print('memory loc', param[2])
+		print('memory changed to', memory[param[2]])
 		print('-----------------')
 
 	return memory, pointer
+
+
+
 
 def eight(memory, pointer, param_modes, relative_base, debug):
 	param = get_params(memory, pointer, param_modes, relative_base)
-	if param[0] == param[1]:
-		memory[memory[pointer + 3]] = 1
+	
+	if memory[param[0]] == memory[param[1]]:
+		memory[param[2]] = 1
 	else:
-		memory[memory[pointer + 3]] = 0
+		memory[param[2]] = 0
 	pointer += 4
 
 	if debug:
-		print('parameters are', param)
-		print('memory loc', memory[pointer -1])
-		print('memory changed to', memory[memory[pointer-1]])
+		print('parameters are', [memory[x] for x in param])
+		print('memory loc', param[2])
+		print('memory changed to', memory[param[2]])
 		print('-----------------')
 
 	return memory, pointer
 
+
+
+
 def nine(memory, pointer, param_modes, relative_base, debug):
 	param = get_params(memory, pointer, param_modes, relative_base)
-	relative_base += param[0]
+	relative_base += memory[param[0]]
 	pointer += 2
 
 	if debug:
-		print('parameters are', param)
+		print('parameters are', [memory[x] for x in param])
 		print('relative base changed to', relative_base)
 		print('-----------------')
 
