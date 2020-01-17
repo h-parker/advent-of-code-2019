@@ -97,7 +97,7 @@ class Intcode:
 		# the order
 		param_modes.reverse()
 
-		if len(param_modes) < 2:
+		if len(param_modes) < 3:
 			# this will add some extra 0's for some opcodes, but that's okay --
 			# it won't hurt the functionality!
 			param_modes.extend([0 for x in range(3 - len(param_modes))])
