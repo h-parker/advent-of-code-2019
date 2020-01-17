@@ -7,14 +7,22 @@ def one(memory, pointer, param_modes, relative_base, debug):
 	Addition
 	"""
 	param = get_params(memory, pointer, param_modes, relative_base)
-	memory[memory[pointer + 3]] = param[0] + param[1]
+	if len(param_modes) > 2 and param_modes[2] == 2:
+		memory[param[2] + relative_base] = param[0] + param[1]
+		if debug:
+			print('parameters are', param)
+			print('memory loc', param[2] + relative_base)
+			print('memory changed to', memory[param[2] + relative_base])
+			print('-----------------')
+	else:
+		memory[memory[pointer + 3]] = param[0] + param[1]
+		if debug:
+			print('parameters are', param)
+			print('memory loc', memory[pointer+3])
+			print('memory changed to', memory[memory[pointer+3]])
+			print('-----------------')
+	
 	pointer += 4
-
-	if debug:
-		print('parameters are', param)
-		print('memory loc', memory[pointer -1])
-		print('memory changed to', memory[memory[pointer-1]])
-		print('-----------------')
 
 	return memory, pointer
 
@@ -23,18 +31,28 @@ def two(memory, pointer, param_modes, relative_base, debug):
 	Multiplication
 	"""
 	param = get_params(memory, pointer, param_modes, relative_base)
-	memory[memory[pointer + 3]] = param[0] * param[1]
-	pointer += 4
 	
-	if debug:
-		print('parameters are', param)
-		print('memory loc', memory[pointer -1])
-		print('memory changed to', memory[memory[pointer-1]])
-		print('-----------------')
+	if len(param_modes) > 2 and param_modes[2] == 2:
+		memory[param[2] + relative_base] = param[0] * param[1]
+		if debug:
+			print('parameters are', param)
+			print('memory loc', param[2] + relative_base)
+			print('memory changed to', memory[param[2] + relative_base])
+			print('-----------------')
+	else:
+		memory[memory[pointer + 3]] = param[0] * param[1]
+		if debug:
+			print('parameters are', param)
+			print('memory loc', memory[pointer +3])
+			print('memory changed to', memory[memory[pointer+3]])
+			print('-----------------')
+	
+	pointer += 4
 	
 	return memory, pointer
 
-def three(memory, pointer, user_input, automate, paused, debug):
+def three(memory, pointer, user_input, param_modes, automate, paused, 
+	relative_base, debug):
 	"""
 	Saves user input to a given address. Does not use parameter modes
 	because the only parameter is the address the user input is saved to
@@ -48,13 +66,25 @@ def three(memory, pointer, user_input, automate, paused, debug):
 	elif not user_input:
 		user_input = [int(input('Please input a value. '))]
 
-	memory[memory[pointer + 1]] = user_input[0]
-	pointer += 2
+	if param_modes[0] == 0:
+		memory[memory[pointer + 1]] = user_input[0]
+		if debug:
+			print('memory at loc', memory[pointer+1],
+				'changed to', memory[memory[pointer+1]])
+			print('-----------------')
 
-	if debug:
-		print('memory at loc', memory[pointer -1],
-			'changed to', memory[memory[pointer-1]])
-		print('-----------------')
+	elif param_modes[0] == 1:
+		print('Error -- Opcode 3 cannot accept immediate mode')
+
+	elif param_modes[0] == 2:
+		print(user_input[0])
+		memory[memory[pointer + 1] + relative_base] = user_input[0]
+		if debug:
+			print('memory at loc', memory[pointer+1] + relative_base,
+				'changed to', memory[memory[pointer+1] + relative_base])
+			print('-----------------')
+	
+	pointer += 2
 
 	return memory, pointer, paused, user_input
 
@@ -144,20 +174,18 @@ def nine(memory, pointer, param_modes, relative_base, debug):
 
 def get_params(memory, pointer, param_modes, relative_base):
 	"""
-	Returns the values to be used according to the parameter modes provided
-	(helper function)
+	Returns the memory location to be used according to the parameter modes 
+	provided (helper function)
 	"""
 	parameters = []
 	i = 1
 	for mode in param_modes:
 		if mode == 0:
-			parameters.append(memory[memory[pointer + i]])
-		elif mode == 1:
 			parameters.append(memory[pointer + i])
+		elif mode == 1:
+			parameters.append(pointer + i)
 		elif mode == 2:
-			print('memory location is', memory[pointer+i] 
-										+ relative_base)
-			parameters.append(memory[memory[pointer+i] 
-										+ relative_base])
+			
+			parameters.append(memory[pointer+i] + relative_base)
 		i += 1
 	return parameters
