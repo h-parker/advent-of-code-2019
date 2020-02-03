@@ -1,6 +1,44 @@
 import math
 
 def main():
+	og_map = """.#..#
+				.....
+				#####
+				....#
+				...##"""
+	print(make_asteroid_map(og_map))
+	
+
+def make_asteroid_map(og_map):
+	'''
+	Given the original map (og_map), creates a new map that just lists the 
+	coordinates of the asteroids
+	'''
+	asteroid_map = []
+	y = 0
+	x = 0
+
+	for row in og_map.replace('\t', '').split('\n'):
+		for element in row:
+			print(element, x, y)
+			if element == '#':
+				asteroid_map.append((x, y))
+			x += 1
+		y += 1
+		x = 0
+		
+
+	return asteroid_map
+
+def num_visible_asteroids(asteroid_map, curr_asteroid):
+	'''
+	Returns the number of asteroids visible on asteroid_map from curr_asteroid 
+	(given as coordinates).
+	'''
+	
+	for asteroid in asteroid_map:
+		pass
+
 
 
 def return_angle(a, b, c):
